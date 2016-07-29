@@ -10,11 +10,11 @@ const screen = blessed.screen({
 });
 const grid = new contrib.grid({
     rows: 5,
-    cols: 1,
+    cols: 8,
     screen: screen
 });
 
-const line = grid.set(0, 0, 4, 1, contrib.line, {
+const line = grid.set(0, 0, 4, 8, contrib.line, {
     style: {
         line: "yellow",
         text: "green",
@@ -33,13 +33,41 @@ var series = {
     x: [],
     y: []
 };
-const box = grid.set(4, 0, 1, 1, blessed.log, {
+const box = grid.set(4, 0, 1, 6, blessed.log, {
     label: 'Log',
     content: 'Hello {bold}world{/bold}!',
     tags: true,
     border: {
         type: 'line'
     }
+});
+
+const form = grid.set(4, 6, 1, 2, blessed.form, {
+    label: 'Control'
+});
+
+const submit = blessed.button({
+    parent: form,
+    mouse: true,
+    keys: true,
+    shrink: true,
+    name: 'submit',
+    content: 'submit',
+    style: {
+        bg: 'blue',
+        focus: {
+            bg: 'red'
+        },
+        hover: {
+            bg: 'red'
+        }
+    }
+});
+
+submit.on('press', function() {
+    client.publish('oven', 'Off false');
+    box.add("push submit");
+    screen.render();
 });
 
 /*conter = 0;
