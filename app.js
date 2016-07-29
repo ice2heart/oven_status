@@ -62,7 +62,7 @@ client.on('connect', function() {
 });
 
 client.on('message', function(topic, message) {
-    var data = message.match(/ (\S+)\s(\d+)/g);
+    var data = message.toString().match(/(\S+)\s(\d+)/g);
     box.add(data);
     //series.x.push((message).toString());
     //series.y.push(10);
