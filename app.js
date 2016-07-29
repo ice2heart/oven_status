@@ -20,8 +20,6 @@ const line = grid.set(0, 0, 4, 8, contrib.line, {
         text: "green",
         baseline: "black"
     },
-    //xLabelPadding: 3,
-    //xPadding: 5,
     minY: 30,
     maxY: 90,
     showLegend: true,
@@ -33,7 +31,7 @@ var series = {
     x: [],
     y: []
 };
-const box = grid.set(4, 0, 1, 6, blessed.log, {
+const box = grid.set(4, 0, 1, 4, blessed.log, {
     label: 'Log',
     content: 'Hello {bold}world{/bold}!',
     tags: true,
@@ -42,43 +40,27 @@ const box = grid.set(4, 0, 1, 6, blessed.log, {
     }
 });
 
-const offBtn = grid.set(4, 6, 1, 1, blessed.button, {
+const list = grid.set(4, 4, 1, 4, blessed.list, {
+    selectedBg: 'green',
+    // Allow mouse support
     mouse: true,
+    // Allow key support (arrow keys + enter)
     keys: true,
-    shrink: true,
-    name: 'Off',
-    content: 'Off',
-    style: {
-        bg: 'blue',
-        focus: {
-            bg: 'red'
-        }
-    }
+    vi: true
 });
-const onBtn = grid.set(4, 7, 1, 1, blessed.button, {
-    mouse: true,
-    keys: true,
-    shrink: true,
-    name: 'On',
-    content: 'On',
-    style: {
-        bg: 'blue',
-        focus: {
-            bg: 'red'
-        }
-    }
+list.on('select', (item) => {
+    //console.log(item.data);
+    box.add(`${item.getText()} select`);
+    client.publish('oven/control', item.getText());
+    screen.render();
 });
 
-offBtn.on('press', function() {
-    client.publish('oven/control', 'off');
-    box.add("push submit off");
-    screen.render();
-});
-onBtn.on('press', function() {
-    client.publish('oven/control', 'on');
-    box.add("push submit on");
-    screen.render();
-});
+list.setItems([
+    'on',
+    'off',
+    'status'
+]);
+list.focus();
 
 /*conter = 0;
 setInterval(()=>{
