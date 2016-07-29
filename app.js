@@ -10,7 +10,7 @@ const screen = blessed.screen({
 });
 
 const box = blessed.log({
-    top: 'center',
+    top: 0,
     bottom: 1,
     width: '100%',
     height: '30%',
@@ -23,6 +23,10 @@ const box = blessed.log({
 screen.append(box);
 
 const line = contrib.line({
+    top: 1,
+    bottom: 0,
+    width: '100%',
+    height: '70%',
     style: {
         line: "yellow",
         text: "green",
@@ -40,7 +44,7 @@ var series1 = {
     y: [5, 1, 7, 5]
 };
 screen.append(line); //must append before setting data
-line.setData([series1, series2]);
+line.setData([series1]);
 
 
 // Quit on Escape, q, or Control-C.
