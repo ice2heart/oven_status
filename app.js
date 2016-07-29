@@ -64,7 +64,9 @@ client.on('connect', function() {
 client.on('message', function(topic, message) {
     var rx = /(\S+)\s(\d+)/g;
     var data = rx.exec(message.toString());
-    box.add(data);
+    var date = new Date(Date.now());
+    series.y.push(data[2]);
+    series.x.push(date.toString());
     //series.x.push((message).toString());
     //series.y.push(10);
     line.setData([series]);
