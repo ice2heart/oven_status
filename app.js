@@ -20,10 +20,10 @@ const line = grid.set(0, 0, 4, 1,  contrib.line, {
         text: "green",
         baseline: "black"
     },
-    xLabelPadding: 3,
-    xPadding: 5,
+    //xLabelPadding: 3,
+    //xPadding: 5,
     showLegend: true,
-    wholeNumbersOnly: false, //true=do not show fraction in y axis
+    //wholeNumbersOnly: false, //true=do not show fraction in y axis
     label: 'Data'
 });
 var series = {
@@ -32,11 +32,6 @@ var series = {
     y: []
 };
 const box = grid.set(4, 0, 1, 1,  blessed.log, {
-    style: {
-        line: "yellow",
-        text: "green",
-        baseline: "black"
-    },
     label: 'Log',
     content: 'Hello {bold}world{/bold}!',
     tags: true,
@@ -66,9 +61,7 @@ client.on('message', function(topic, message) {
     var data = rx.exec(message.toString());
     var date = new Date(Date.now());
     series.y.push(data[2]);
-    series.x.push(date.toString());
-    //series.x.push((message).toString());
-    //series.y.push(10);
+    series.x.push(date.toLocaleString());
     line.setData([series]);
     box.add(`{bold}${topic.toString()}{/bold}: ${message.toString()}`);
     screen.render();
