@@ -8,25 +8,13 @@ const contrib = require('blessed-contrib');
 const screen = blessed.screen({
     smartCSR: true
 });
-
-const box = blessed.log({
-    top: 0,
-    bottom: 1,
-    width: '100%',
-    height: '30%',
-    content: 'Hello {bold}world{/bold}!',
-    tags: true,
-    border: {
-        type: 'line'
-    }
+const grid = new contrib.grid({
+    rows: 5,
+    cols: 1,
+    screen: screen
 });
-screen.append(box);
 
-const line = contrib.line({
-    top: 1,
-    bottom: 0,
-    width: '100%',
-    height: '70%',
+const line = grid.set(0, 0, 4, 1,  contrib.line, {
     style: {
         line: "yellow",
         text: "green",
@@ -36,16 +24,31 @@ const line = contrib.line({
     xPadding: 5,
     showLegend: true,
     wholeNumbersOnly: false, //true=do not show fraction in y axis
-    label: 'Title'
+    label: 'Data'
 });
-var series1 = {
-    title: 'apples',
-    x: ['t1', 't2', 't3', 't4'],
-    y: [5, 1, 7, 5]
+var series = {
+    title: 'Ampers',
+    x: [],
+    y: []
 };
-screen.append(line); //must append before setting data
-line.setData([series1]);
+const box = grid.set(4, 0, 1, 1,  blessed.log, {
+    style: {
+        line: "yellow",
+        text: "green",
+        baseline: "black"
+    },
+    label: 'Log',
+    content: 'Hello {bold}world{/bold}!',
+    tags: true,
+    border: {
+        type: 'line'
+    }
+});
 
+/*conter = 0;
+setInterval(()=>{
+    client.publish('oven', 'Hello 10');
+}, 1000);*/
 
 // Quit on Escape, q, or Control-C.
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
@@ -54,14 +57,18 @@ screen.key(['escape', 'q', 'C-c'], function(ch, key) {
 
 client.on('connect', function() {
     client.subscribe('oven');
-    client.publish('oven', 'Hello mqtt');
+
+    client.publish('oven', 'Hello 10');
 });
 
 client.on('message', function(topic, message) {
-    // message is Buffer
+    var data = message.match(/ (\S+)\s(\d+)/g);
+    box.add(data);
+    //series.x.push((message).toString());
+    //series.y.push(10);
+    line.setData([series]);
     box.add(`{bold}${topic.toString()}{/bold}: ${message.toString()}`);
     screen.render();
-    //console.log(message.toString());
     //client.end();
 });
 screen.render();
