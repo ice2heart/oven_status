@@ -11,8 +11,8 @@ const screen = blessed.screen({
 const box = blessed.log({
   top: 'center',
   bottom: 1,
-  width: '80%',
-  height: '100%',
+  width: '100%',
+  height: '30%',
   content: 'Hello {bold}world{/bold}!',
   tags: true,
   border: {
@@ -34,6 +34,9 @@ client.on('connect', function () {
 
 client.on('message', function (topic, message) {
   // message is Buffer
-  console.log(message.toString());
+  box.add(`{bold}${topic.toString()}{/bold}: ${message.toString()}`);
+  screen.render();
+  //console.log(message.toString());
   //client.end();
 });
+screen.render();
