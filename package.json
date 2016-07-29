@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "blessed": "^0.1.81",
+    "blessed-contrib": "^3.5.5",
     "mqtt": "^1.13.0"
   }
 }
