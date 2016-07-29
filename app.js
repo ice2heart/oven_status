@@ -46,13 +46,19 @@ const form = grid.set(4, 6, 1, 2, blessed.form, {
     label: 'Control'
 });
 
-const submit = blessed.button({
+const offBtn = blessed.button({
     parent: form,
+    padding: {
+        left: 3,
+        right: 3
+    },
+    left: 0,
+    width: 10,
     mouse: true,
     keys: true,
     shrink: true,
-    name: 'submit',
-    content: 'submit',
+    name: 'Off',
+    content: 'Off',
     style: {
         bg: 'blue',
         focus: {
@@ -64,11 +70,42 @@ const submit = blessed.button({
     }
 });
 
-submit.on('press', function() {
+offBtn.on('press', function() {
     client.publish('oven/control', 'off');
-    box.add("push submit");
+    box.add("push submit off");
     screen.render();
 });
+
+const onBtn = blessed.button({
+    parent: form,
+    padding: {
+        left: 3,
+        right: 3
+    },
+    left: 11,
+    width: 10,
+    mouse: true,
+    keys: true,
+    shrink: true,
+    name: 'On',
+    content: 'On',
+    style: {
+        bg: 'blue',
+        focus: {
+            bg: 'red'
+        },
+        hover: {
+            bg: 'red'
+        }
+    }
+});
+
+onBtn.on('press', function() {
+    client.publish('oven/control', 'on');
+    box.add("push submit on");
+    screen.render();
+});
+
 
 /*conter = 0;
 setInterval(()=>{
