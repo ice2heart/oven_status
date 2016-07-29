@@ -48,8 +48,8 @@ const list = grid.set(4, 4, 1, 4, blessed.list, {
     keys: true,
     vi: true
 });
+
 list.on('select', (item) => {
-    //console.log(item.data);
     box.add(`${item.getText()} select`);
     client.publish('oven/control', item.getText());
     screen.render();
