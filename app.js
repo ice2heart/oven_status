@@ -14,7 +14,7 @@ const grid = new contrib.grid({
     screen: screen
 });
 
-const line = grid.set(0, 0, 4, 1,  contrib.line, {
+const line = grid.set(0, 0, 4, 1, contrib.line, {
     style: {
         line: "yellow",
         text: "green",
@@ -22,6 +22,8 @@ const line = grid.set(0, 0, 4, 1,  contrib.line, {
     },
     //xLabelPadding: 3,
     //xPadding: 5,
+    minY: 30,
+    maxY: 90,
     showLegend: true,
     //wholeNumbersOnly: false, //true=do not show fraction in y axis
     label: 'Data'
@@ -31,7 +33,7 @@ var series = {
     x: [],
     y: []
 };
-const box = grid.set(4, 0, 1, 1,  blessed.log, {
+const box = grid.set(4, 0, 1, 1, blessed.log, {
     label: 'Log',
     content: 'Hello {bold}world{/bold}!',
     tags: true,
