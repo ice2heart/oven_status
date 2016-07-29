@@ -42,18 +42,7 @@ const box = grid.set(4, 0, 1, 6, blessed.log, {
     }
 });
 
-const form = grid.set(4, 6, 1, 2, blessed.form, {
-    label: 'Control'
-});
-
-const offBtn = blessed.button({
-    parent: form,
-    padding: {
-        left: 3,
-        right: 3
-    },
-    left: 0,
-    width: 10,
+const offBtn = grid.set(4, 6, 1, 1, blessed.button, {
     mouse: true,
     keys: true,
     shrink: true,
@@ -63,8 +52,18 @@ const offBtn = blessed.button({
         bg: 'blue',
         focus: {
             bg: 'red'
-        },
-        hover: {
+        }
+    }
+});
+const onBtn = grid.set(4, 7, 1, 1, blessed.button, {
+    mouse: true,
+    keys: true,
+    shrink: true,
+    name: 'On',
+    content: 'On',
+    style: {
+        bg: 'blue',
+        focus: {
             bg: 'red'
         }
     }
@@ -75,37 +74,11 @@ offBtn.on('press', function() {
     box.add("push submit off");
     screen.render();
 });
-
-const onBtn = blessed.button({
-    parent: form,
-    padding: {
-        left: 3,
-        right: 3
-    },
-    left: 11,
-    width: 10,
-    mouse: true,
-    keys: true,
-    shrink: true,
-    name: 'On',
-    content: 'On',
-    style: {
-        bg: 'blue',
-        focus: {
-            bg: 'red'
-        },
-        hover: {
-            bg: 'red'
-        }
-    }
-});
-
 onBtn.on('press', function() {
     client.publish('oven/control', 'on');
     box.add("push submit on");
     screen.render();
 });
-
 
 /*conter = 0;
 setInterval(()=>{
