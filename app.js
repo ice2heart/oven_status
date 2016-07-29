@@ -65,7 +65,7 @@ const submit = blessed.button({
 });
 
 submit.on('press', function() {
-    client.publish('oven', 'Off false');
+    client.publish('oven/control', 'off');
     box.add("push submit");
     screen.render();
 });
@@ -81,9 +81,8 @@ screen.key(['escape', 'q', 'C-c'], function(ch, key) {
 });
 
 client.on('connect', function() {
-    client.subscribe('oven');
-
-    client.publish('oven', 'Hello 10');
+    client.subscribe('oven/status');
+    client.publish('oven/status', 'Hello 10');
 });
 
 client.on('message', function(topic, message) {
